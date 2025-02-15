@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <h2>👤 Welcome to Your Dashboard</h2>
+        
+        <div class="buttons">
+            <button onclick="viewHistory()">📜 View History Logs</button>
+            <button onclick="logout()">🚪 Logout</button>
+        </div>
+
+        <div id="history" class="history-container"></div>
+    </div>
+
+    <script>
+        async function viewHistory() {
+            const res = await fetch("/user-dashboard/history");
+            const logs = await res.json();
+            document.getElementById("history").innerHTML = logs.length > 0 
+                ? logs.map(log => `<p>📌 ${log.action} at <b>${log.time}</b></p>`).join("")
+                : "<p>No history found.</p>";
+        }
+
+        function logout() {
+            window.location.href = "/logout";
+        }
+    </script>
+
+</body>
+</html>
